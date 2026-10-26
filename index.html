@@ -1,0 +1,1004 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Caccia al Ciclo - App Didattica di Informatica</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Inter & Orbitron for futuristic typography -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Orbitron:wght@600;800;900&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        cyber: {
+                            bg: '#0a0e17',
+                            card: '#121826',
+                            border: '#1f293d',
+                            neonBlue: '#00f0ff',
+                            neonPink: '#ff007f',
+                            neonGreen: '#00ff66',
+                            neonYellow: '#ffe600',
+                            text: '#e2e8f0',
+                            muted: '#94a3b8'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        tech: ['Orbitron', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #0a0e17;
+            color: #e2e8f0;
+            font-family: 'Inter', sans-serif;
+            touch-action: manipulation;
+        }
+        .glow-blue {
+            box-shadow: 0 0 15px rgba(0, 240, 255, 0.4);
+        }
+        .glow-pink {
+            box-shadow: 0 0 15px rgba(255, 0, 127, 0.4);
+        }
+        .glow-green {
+            box-shadow: 0 0 15px rgba(0, 255, 102, 0.4);
+        }
+        .cyber-border {
+            border: 1px solid #1f293d;
+            position: relative;
+        }
+        .cyber-border-active {
+            border-color: #00f0ff;
+        }
+        /* Touch friendly sizing */
+        .btn-touch {
+            min-height: 48px;
+            min-width: 48px;
+        }
+        /* Custom scrollbars */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0a0e17;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #1f293d;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #00f0ff;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between selection:bg-cyan-500 selection:text-black antialiased">
+
+    <!-- TOP HEADER / NAV BAR -->
+    <header class="w-full bg-cyber-card border-b border-cyber-border sticky top-0 z-50 px-4 py-3">
+        <div class="max-w-5xl mx-auto flex flex-wrap justify-between items-center gap-2">
+            <div class="flex items-center gap-2 cursor-pointer" onclick="showScreen('home')">
+                <span class="text-2xl text-cyber-neonBlue font-tech font-extrabold tracking-wider">CACCIA<span class="text-cyber-neonPink">AL</span>CICLO</span>
+                <span class="bg-cyan-950 text-cyber-neonBlue text-xs font-mono font-bold px-2 py-0.5 rounded border border-cyan-800">AFM 2.0</span>
+            </div>
+            
+            <nav class="flex items-center gap-2">
+                <button onclick="showScreen('scopri')" id="nav-scopri" class="btn-touch px-4 py-2 rounded-lg font-semibold text-sm transition-all duration-200 bg-cyber-border hover:bg-cyan-900/50 text-cyber-text border border-cyan-800/50 flex items-center gap-2">
+                    <span>💡</span> <span>Scopri</span>
+                </button>
+                <button onclick="showScreen('sfida-setup')" id="nav-sfida" class="btn-touch px-4 py-2 rounded-lg font-semibold text-sm transition-all duration-200 bg-cyber-neonPink/20 hover:bg-cyber-neonPink/40 text-cyber-neonPink border border-cyber-neonPink/60 flex items-center gap-2 glow-pink">
+                    <span>⚡</span> <span>Sfida</span>
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- MAIN CONTAINER -->
+    <main class="max-w-4xl w-full mx-auto px-4 py-6 flex-grow flex flex-col justify-center">
+
+        <!-- SCREEN: HOME / WELCOME -->
+        <section id="screen-home" class="space-y-6 text-center">
+            <div class="p-8 rounded-2xl bg-cyber-card border border-cyber-border glow-blue space-y-6">
+                <div class="inline-block px-3 py-1 rounded-full bg-cyan-950/80 border border-cyan-500/30 text-cyber-neonBlue text-xs font-mono tracking-widest uppercase">
+                    Laboratorio di Informatica - 2ª AFM
+                </div>
+                <h1 class="text-3xl md:text-5xl font-tech font-bold text-white tracking-wide">
+                    ESERCIZI SUI CICLI NEGLI <span class="text-cyber-neonBlue">ALGORITMI</span>
+                </h1>
+                <p class="text-cyber-muted max-w-2xl mx-auto text-base md:text-lg leading-relaxed">
+                    Hai difficoltà a capire quante volte viene eseguito un ciclo o quale blocco applicare nei diagrammi di flusso? 
+                    Impara con le schede **Scopri** e mettiti alla prova con le sfide interattive!
+                </p>
+
+                <div class="grid md:grid-cols-2 gap-4 max-w-xl mx-auto pt-4">
+                    <button onclick="showScreen('scopri')" class="btn-touch p-5 rounded-xl bg-cyber-card border-2 border-cyber-neonBlue hover:bg-cyan-950 text-left transition duration-200 group">
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="text-2xl">📖</span>
+                            <span class="text-xs font-mono text-cyber-neonBlue">4-6 SCHEDE</span>
+                        </div>
+                        <h2 class="text-xl font-tech font-bold text-white group-hover:text-cyber-neonBlue">1. SCOPRI</h2>
+                        <p class="text-xs text-cyber-muted mt-1">Ripassa i concetti chiave: Ciclo FOR, WHILE, DO-WHILE e conteggio iterazioni.</p>
+                    </button>
+
+                    <button onclick="showScreen('sfida-setup')" class="btn-touch p-5 rounded-xl bg-cyber-card border-2 border-cyber-neonPink hover:bg-pink-950 text-left transition duration-200 group">
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="text-2xl">🎯</span>
+                            <span class="text-xs font-mono text-cyber-neonPink">10 PROVE</span>
+                        </div>
+                        <h2 class="text-xl font-tech font-bold text-white group-hover:text-cyber-neonPink">2. SFIDA</h2>
+                        <p class="text-xs text-cyber-muted mt-1">Risolvi 10 quiz a tempo o libero per testare le tue competenze sugli algoritmi.</p>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- SCREEN: SCOPRI (SCHEDE DIDATTICHE) -->
+        <section id="screen-scopri" class="hidden space-y-6">
+            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                <div>
+                    <h2 class="text-2xl font-tech font-bold text-cyber-neonBlue flex items-center gap-2">
+                        <span>💡</span> SCHEDE DI APPRENDIMENTO
+                    </h2>
+                    <p class="text-sm text-cyber-muted">Consulta i concetti chiave prima di procedere alla Sfida.</p>
+                </div>
+                <button onclick="showScreen('sfida-setup')" class="btn-touch px-4 py-2 bg-cyber-neonPink text-white font-tech text-sm font-bold rounded-lg hover:bg-pink-600 transition glow-pink">
+                    VAI ALLA SFIDA ⚡
+                </button>
+            </div>
+
+            <!-- TAB SELECTION -->
+            <div class="flex overflow-x-auto gap-2 pb-2 scrollbar-none" id="scopri-tabs">
+                <!-- Generato da JS -->
+            </div>
+
+            <!-- CARD CONTENT CONTAINER -->
+            <div id="scopri-content" class="p-6 md:p-8 rounded-2xl bg-cyber-card border border-cyber-border glow-blue min-h-[320px] flex flex-col justify-between">
+                <!-- Generato da JS -->
+            </div>
+        </section>
+
+        <!-- SCREEN: SETUP SFIDA -->
+        <section id="screen-sfida-setup" class="hidden max-w-xl mx-auto w-full">
+            <div class="p-8 rounded-2xl bg-cyber-card border border-cyber-border glow-pink space-y-6">
+                <div class="text-center space-y-2">
+                    <h2 class="text-3xl font-tech font-bold text-white">CONFIGURA LA <span class="text-cyber-neonPink">SFIDA</span></h2>
+                    <p class="text-sm text-cyber-muted">Personalizza la prova prima di iniziare.</p>
+                </div>
+
+                <!-- LIVELLO DIFFICOLTÀ -->
+                <div class="space-y-3">
+                    <label class="block text-sm font-mono text-cyber-neonBlue">1. SELEZIONA DIFFICOLTÀ:</label>
+                    <div class="grid grid-cols-3 gap-2">
+                        <button type="button" onclick="setDifficolta('facile')" id="btn-diff-facile" class="diff-btn btn-touch py-3 rounded-lg border font-mono text-xs font-bold transition border-cyber-neonGreen text-cyber-neonGreen bg-green-950/30">
+                            FACILE
+                        </button>
+                        <button type="button" onclick="setDifficolta('medio')" id="btn-diff-medio" class="diff-btn btn-touch py-3 rounded-lg border font-mono text-xs font-bold transition border-cyber-border text-cyber-muted hover:border-cyber-neonYellow">
+                            MEDIO
+                        </button>
+                        <button type="button" onclick="setDifficolta('difficile')" id="btn-diff-difficile" class="diff-btn btn-touch py-3 rounded-lg border font-mono text-xs font-bold transition border-cyber-border text-cyber-muted hover:border-cyber-neonPink">
+                            DIFFICILE
+                        </button>
+                    </div>
+                </div>
+
+                <!-- TIMER SWITCH -->
+                <div class="p-4 rounded-xl bg-cyber-bg border border-cyber-border flex items-center justify-between">
+                    <div>
+                        <div class="font-semibold text-sm text-white flex items-center gap-2">
+                            <span>⏱️</span> TIMER DI RISPOSTA (30s per domanda)
+                        </div>
+                        <div class="text-xs text-cyber-muted">Disattivabile per uno studio senza ansia.</div>
+                    </div>
+                    <label class="relative inline-flex items-center cursor-pointer">
+                        <input type="checkbox" id="timer-toggle" checked class="sr-only peer">
+                        <div class="w-11 h-6 bg-cyber-border peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-cyber-neonBlue"></div>
+                    </label>
+                </div>
+
+                <!-- AVVIA BUTTON -->
+                <button onclick="startSfida()" class="w-full btn-touch py-4 rounded-xl bg-cyber-neonPink hover:bg-pink-600 text-white font-tech font-bold text-lg tracking-wider transition glow-pink">
+                    INIZIA LA SFIDA (10 PROVE) 🚀
+                </button>
+            </div>
+        </section>
+
+        <!-- SCREEN: SFIDA IN CORSO -->
+        <section id="screen-sfida-play" class="hidden space-y-6">
+            <!-- HUD TOP BAR -->
+            <div class="p-4 rounded-xl bg-cyber-card border border-cyber-border flex flex-wrap justify-between items-center gap-4 font-mono text-sm">
+                <div class="flex items-center gap-2">
+                    <span class="text-cyber-muted">PROVA:</span>
+                    <span id="hud-progress" class="text-cyber-neonBlue font-bold text-base">1 / 10</span>
+                </div>
+
+                <!-- TIMER BAR CONTAINER -->
+                <div id="hud-timer-container" class="flex items-center gap-3">
+                    <span class="text-cyber-muted">TEMPO:</span>
+                    <div class="w-32 bg-cyber-bg rounded-full h-3 border border-cyber-border overflow-hidden">
+                        <div id="timer-bar" class="bg-cyber-neonBlue h-full w-full transition-all duration-1000"></div>
+                    </div>
+                    <span id="hud-timer-sec" class="text-cyber-neonYellow font-bold w-6 text-right">30</span>
+                </div>
+
+                <div class="flex items-center gap-2">
+                    <span class="text-cyber-muted">PUNTI:</span>
+                    <span id="hud-score" class="text-cyber-neonGreen font-bold text-base">0</span>
+                </div>
+            </div>
+
+            <!-- QUESTION CARD -->
+            <div class="p-6 md:p-8 rounded-2xl bg-cyber-card border border-cyber-border glow-blue space-y-6">
+                
+                <!-- QUESTION HEADER -->
+                <div class="space-y-2">
+                    <div class="flex justify-between items-center">
+                        <span id="question-level-tag" class="text-xs font-mono font-bold px-2.5 py-1 rounded bg-cyan-950 text-cyber-neonBlue border border-cyan-800">FACILE</span>
+                        <span id="question-attempt-tag" class="text-xs font-mono text-cyber-muted">Tentativo: 1/2</span>
+                    </div>
+                    <h3 id="question-text" class="text-lg md:text-xl font-bold text-white leading-relaxed">
+                        <!-- Generato da JS -->
+                    </h3>
+                </div>
+
+                <!-- INTERACTION AREA (INPUT O OPZIONI) -->
+                <div id="question-interaction" class="space-y-3 pt-2">
+                    <!-- Generato dinamicamente da JS (Opzioni multipla / Input numerico) -->
+                </div>
+
+                <!-- FEEDBACK BOX (DOPO LA RISPOSTA) -->
+                <div id="feedback-box" class="hidden p-4 rounded-xl border text-sm space-y-2">
+                    <div id="feedback-title" class="font-tech font-bold text-base flex items-center gap-2">
+                        <!-- Icona e status -->
+                    </div>
+                    <p id="feedback-desc" class="text-cyber-text leading-relaxed">
+                        <!-- Spiegazione -->
+                    </p>
+                    <div id="feedback-suggestion" class="text-xs font-mono text-cyber-neonYellow bg-yellow-950/40 p-2.5 rounded border border-yellow-800/50 mt-2 hidden">
+                        <!-- Suggerimento -->
+                    </div>
+                    <div id="feedback-link-scopri" class="pt-2 hidden">
+                        <button onclick="goToRelatedScopri()" class="text-xs font-mono text-cyber-neonBlue underline hover:text-white flex items-center gap-1">
+                            <span>💡</span> Ripassa nella scheda Scopri pertinente &rarr;
+                        </button>
+                    </div>
+                </div>
+
+                <!-- BUTTON NEXT / CONFERMA -->
+                <div class="flex justify-end pt-2">
+                    <button id="btn-submit-answer" onclick="submitAnswer()" class="btn-touch px-6 py-3 rounded-xl bg-cyber-neonBlue text-black font-tech font-bold hover:bg-cyan-300 transition glow-blue">
+                        CONFERMA RISPOSTA ✓
+                    </button>
+                    <button id="btn-next-question" onclick="nextQuestion()" class="hidden btn-touch px-6 py-3 rounded-xl bg-cyber-neonPink text-white font-tech font-bold hover:bg-pink-600 transition glow-pink">
+                        PROSSIMA PROVA ➔
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- SCREEN: RIEPILOGO FINALE -->
+        <section id="screen-summary" class="hidden max-w-2xl mx-auto w-full space-y-6">
+            <div class="p-8 rounded-2xl bg-cyber-card border border-cyber-border glow-green text-center space-y-6">
+                <div class="text-5xl mb-2">🏆</div>
+                <h2 class="text-3xl md:text-4xl font-tech font-bold text-white">SFIDA <span class="text-cyber-neonGreen">COMPLETATA!</span></h2>
+                
+                <!-- PUNTEGGIO -->
+                <div class="p-6 rounded-xl bg-cyber-bg border border-cyber-border max-w-md mx-auto space-y-2">
+                    <div class="text-xs font-mono text-cyber-muted">PUNTEGGIO FINALE</div>
+                    <div id="final-score-val" class="text-4xl font-tech font-bold text-cyber-neonGreen">80 / 100</div>
+                    <p id="final-rating-text" class="text-sm font-mono text-cyber-neonBlue">Eccellente padronanza dei cicli!</p>
+                </div>
+
+                <!-- RIEPILOGO ERRORE PER ERRORE -->
+                <div class="space-y-3 text-left">
+                    <h3 class="font-tech font-bold text-lg text-white border-b border-cyber-border pb-2 flex items-center justify-between">
+                        <span>REVISIONATO PROVE (10)</span>
+                        <span class="text-xs text-cyber-muted font-normal">Dettaglio risposte</span>
+                    </h3>
+                    <div id="summary-list" class="space-y-3 max-h-80 overflow-y-auto pr-1">
+                        <!-- Generato da JS -->
+                    </div>
+                </div>
+
+                <!-- AZIONI FINALI -->
+                <div class="flex flex-col sm:flex-row gap-3 pt-4 justify-center">
+                    <button onclick="showScreen('sfida-setup')" class="btn-touch px-6 py-3 rounded-xl bg-cyber-neonPink text-white font-tech font-bold hover:bg-pink-600 transition glow-pink">
+                        NUOVA SFIDA 🔄
+                    </button>
+                    <button onclick="showScreen('scopri')" class="btn-touch px-6 py-3 rounded-xl bg-cyber-border text-white font-tech font-bold hover:bg-cyan-900 transition">
+                        TORNA A SCOPRI 📖
+                    </button>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="w-full border-t border-cyber-border bg-cyber-card py-4 px-4 text-center text-xs font-mono text-cyber-muted">
+        <div class="max-w-5xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-2">
+            <div>App Didattica Informatica • 2ª AFM - Amministrazione Finanza e Marketing</div>
+            <div class="flex items-center gap-3">
+                <span class="text-cyber-neonGreen">✓ Nessun dato personale raccolto</span>
+                <span>•</span>
+                <span class="text-cyber-neonBlue">Accessibilità ✓/✗</span>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JAVASCRIPT LOGIC -->
+    <script>
+        /* ==========================================================================
+           DATI SCOPRI (SCHEDE DIDATTICHE)
+           ========================================================================== */
+        const SCOPRI_DATA = [
+            {
+                id: 'S1',
+                title: '1. Ciclo FOR (Enumerativo)',
+                icon: '🔄',
+                badge: 'Iterazioni Note',
+                content: `
+                    <h3 class="text-xl font-bold text-cyber-neonBlue mb-2">Ciclo Enumerativo: FOR (Per... Da... A...)</h3>
+                    <p class="text-cyber-text leading-relaxed mb-4">
+                        Si applica quando il **numero di iterazioni è noto prima di iniziare** l'esecuzione del ciclo. Usa una variabile contatore (es. <code class="bg-cyan-950 px-1 py-0.5 rounded text-cyber-neonBlue">i</code>) che viene incrementata automaticamente a ogni passaggio.
+                    </p>
+                    <div class="bg-cyber-bg p-4 rounded-xl border border-cyber-border font-mono text-xs space-y-1 mb-4">
+                        <div class="text-cyber-muted">// Sintassi in Pseudocodice</div>
+                        <div class="text-cyber-neonPink">Per i da 1 a 10 fai:</div>
+                        <div class="pl-4 text-white">Scrivi("Numero: ", i)</div>
+                        <div class="text-cyber-neonPink">Fine Per</div>
+                    </div>
+                    <div class="p-3 bg-cyan-950/40 rounded-lg border border-cyan-800/50 text-xs text-cyber-text">
+                        <strong>📌 Esempio pratico:</strong> Stampare 100 fatture di vendita consecutive, oppure calcolare lo stipendio di 20 dipendenti.
+                    </div>
+                `
+            },
+            {
+                id: 'S2',
+                title: '2. Ciclo WHILE (Pre-condizionale)',
+                icon: '❓',
+                badge: 'Controllo all\'Inizio',
+                content: `
+                    <h3 class="text-xl font-bold text-cyber-neonBlue mb-2">Ciclo Pre-condizionale: WHILE (Mentre)</h3>
+                    <p class="text-cyber-text leading-relaxed mb-4">
+                        La condizione viene verificata **PRIMA** di eseguire il blocco di istruzioni. Se la condizione è **Falsa al primo controllo**, il blocco interno viene eseguito **0 volte**.
+                    </p>
+                    <div class="bg-cyber-bg p-4 rounded-xl border border-cyber-border font-mono text-xs space-y-1 mb-4">
+                        <div class="text-cyber-muted">// Sintassi in Pseudocodice</div>
+                        <div class="text-cyber-neonPink">Mentre (condizione è VERA) fai:</div>
+                        <div class="pl-4 text-white">Esegui Istruzioni...</div>
+                        <div class="text-cyber-neonPink">Fine Mentre</div>
+                    </div>
+                    <div class="p-3 bg-cyan-950/40 rounded-lg border border-cyan-800/50 text-xs text-cyber-text">
+                        <strong>📌 Esempio pratico:</strong> Elaborare gli scontrini finché il totale non supera 500€. Se l'importo di partenza è già 600€, il ciclo non parte nemmeno!
+                    </div>
+                `
+            },
+            {
+                id: 'S3',
+                title: '3. Ciclo DO-WHILE (Post-condizionale)',
+                icon: '🔁',
+                badge: 'Controllo alla Fine',
+                content: `
+                    <h3 class="text-xl font-bold text-cyber-neonBlue mb-2">Ciclo Post-condizionale: DO-WHILE (Esegui... Mentre)</h3>
+                    <p class="text-cyber-text leading-relaxed mb-4">
+                        La condizione viene verificata **DOPO** aver eseguito il blocco di istruzioni. Questo garantisce che le istruzioni vengano eseguite **ALMENO UNA VOLTA**.
+                    </p>
+                    <div class="bg-cyber-bg p-4 rounded-xl border border-cyber-border font-mono text-xs space-y-1 mb-4">
+                        <div class="text-cyber-muted">// Sintassi in Pseudocodice</div>
+                        <div class="text-cyber-neonPink">Esegui:</div>
+                        <div class="pl-4 text-white">Leggi Password</div>
+                        <div class="text-cyber-neonPink">Mentre (Password è Errata)</div>
+                    </div>
+                    <div class="p-3 bg-cyan-950/40 rounded-lg border border-cyan-800/50 text-xs text-cyber-text">
+                        <strong>📌 Esempio pratico:</strong> Inserimento di una password o di un PIN di sicurezza: bisogna chiedere il codice al primo tentativo prima di poter verificare se sia corretto.
+                    </div>
+                `
+            },
+            {
+                id: 'S4',
+                title: '4. Conteggio & Traccia Variabili',
+                icon: '🧮',
+                badge: 'Calcolo Valori',
+                content: `
+                    <h3 class="text-xl font-bold text-cyber-neonBlue mb-2">Tracciamento delle Variabili e Iterazioni</h3>
+                    <p class="text-cyber-text leading-relaxed mb-4">
+                        Per scoprire il valore finale di una variabile al termine di un ciclo, costruisci una **Tabella di Traccia** registrando i valori ad ogni passaggio.
+                    </p>
+                    <div class="bg-cyber-bg p-4 rounded-xl border border-cyber-border font-mono text-xs mb-4 overflow-x-auto">
+                        <table class="w-full text-left">
+                            <thead class="border-b border-cyber-border text-cyber-neonBlue">
+                                <tr><th class="p-1">Iterazione</th><th class="p-1">Condizione</th><th class="p-1">Valore Variabile X</th></tr>
+                            </thead>
+                            <tbody class="divide-y divide-cyber-border/50 text-cyber-muted">
+                                <tr><td class="p-1">Inizio</td><td class="p-1">-</td><td class="p-1">X = 0</td></tr>
+                                <tr><td class="p-1">Passo 1</td><td class="p-1">Vera</td><td class="p-1">X = 0 + 3 = 3</td></tr>
+                                <tr><td class="p-1">Passo 2</td><td class="p-1">Vera</td><td class="p-1">X = 3 + 3 = 6</td></tr>
+                                <tr><td class="p-1">Fine</td><td class="p-1">Falsa</td><td class="p-1">Valore finale: 6</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="p-3 bg-cyan-950/40 rounded-lg border border-cyan-800/50 text-xs text-cyber-text">
+                        <strong>⚠️ Attenzione agli errori comuni:</strong> Ricorda che nei cicli pre-condizionali (WHILE) se la condizione iniziale è falsa la variabile non cambia affatto!
+                    </div>
+                `
+            },
+            {
+                id: 'S5',
+                title: '5. Guida alla Scelta del Ciclo',
+                icon: '🎯',
+                badge: 'Mappa Decisionale',
+                content: `
+                    <h3 class="text-xl font-bold text-cyber-neonBlue mb-2">Quale Ciclo Scegliere?</h3>
+                    <p class="text-cyber-text leading-relaxed mb-4">
+                        Usa questo schema mentale rapido per individuare subito la struttura di controllo perfetta per l'esercizio:
+                    </p>
+                    <div class="space-y-3 font-mono text-xs">
+                        <div class="p-3 rounded-lg bg-cyber-bg border-l-4 border-cyber-neonBlue">
+                            <span class="text-cyber-neonBlue font-bold">1. Conosco a priori il numero esatto di volte?</span><br>
+                            👉 <strong>FOR (Enumerativo)</strong>
+                        </div>
+                        <div class="p-3 rounded-lg bg-cyber-bg border-l-4 border-cyber-neonYellow">
+                            <span class="text-cyber-neonYellow font-bold">2. Non lo so, e il ciclo potrebbe NON dover essere eseguito neanche 1 volta?</span><br>
+                            👉 <strong>WHILE (Pre-condizionale)</strong>
+                        </div>
+                        <div class="p-3 rounded-lg bg-cyber-bg border-l-4 border-cyber-neonPink">
+                            <span class="text-cyber-neonPink font-bold">3. Non lo so, ma l'operazione deve essere eseguita ALMENO UNA VOLTA?</span><br>
+                            👉 <strong>DO-WHILE (Post-condizionale)</strong>
+                        </div>
+                    </div>
+                `
+            }
+        ];
+
+        /* ==========================================================================
+           DATI SFIDA (10 PROVE)
+           ========================================================================== */
+        const SFIDA_PROVE = [
+            {
+                id: 1,
+                diff: 'facile',
+                type: 'choice',
+                question: 'Devi stampare a schermo i numeri interi da 1 a 100. Qual è la struttura di ciclo più idonea da utilizzare?',
+                options: [
+                    'Ciclo Enumerativo (FOR)',
+                    'Ciclo Pre-condizionale (WHILE)',
+                    'Ciclo Post-condizionale (DO-WHILE)',
+                    'Una sequenza senza cicli'
+                ],
+                correctIndex: 0,
+                scopriRef: 'S1',
+                explanation: 'Il numero di iterazioni (100) è noto a priori prima di avviare l\'algoritmo. In questi casi il ciclo Enumerativo (FOR) è la scelta ideale.',
+                hint: 'Il numero di ripetizioni è noto con certezza prima di cominciare?'
+            },
+            {
+                id: 2,
+                diff: 'facile',
+                type: 'number',
+                question: 'Considera il seguente frammento: <br><code class="text-cyber-neonBlue font-mono">X = 0;<br>Per I da 1 a 5 fai:<br>&nbsp;&nbsp;X = X + 2;</code><br>Qual è il valore finale della variabile <strong>X</strong>?',
+                correctNumber: 10,
+                scopriRef: 'S4',
+                explanation: 'Il ciclo viene eseguito 5 volte (con I che va da 1 a 5). In ciascuna iterazione vengono sommati 2 alla variabile X. Quindi: 2 * 5 = 10.',
+                hint: 'Moltiplica il valore incrementato ad ogni passo per il numero totale di iterazioni.'
+            },
+            {
+                id: 3,
+                diff: 'facile',
+                type: 'choice',
+                question: 'Un programma deve richiedere la password all\'utente e continuare a chiederla finché non viene inserita quella corretta (almeno un tentativo iniziale deve sempre essere fatto). Quale ciclo è corretto?',
+                options: [
+                    'Ciclo Pre-condizionale (WHILE)',
+                    'Ciclo Post-condizionale (DO-WHILE)',
+                    'Ciclo Enumerativo (FOR)',
+                    'Nessuno dei precedenti'
+                ],
+                correctIndex: 1,
+                scopriRef: 'S3',
+                explanation: 'Poiché la richiesta del codice deve essere fatta almeno una volta prima di poter controllare se sia corretta, la struttura idonea è il ciclo Post-condizionale (DO-WHILE).',
+                hint: 'L\'azione di lettura deve avvenire prima o dopo il controllo della condizione?'
+            },
+            {
+                id: 4,
+                diff: 'medio',
+                type: 'number',
+                question: 'Analizza il seguente codice:<br><code class="text-cyber-neonBlue font-mono">X = 10;<br>Mentre (X < 10) fai:<br>&nbsp;&nbsp;X = X + 1;</code><br>Qual è il valore finale della variabile <strong>X</strong>?',
+                correctNumber: 10,
+                scopriRef: 'S2',
+                explanation: 'Il ciclo WHILE controlla la condizione ALL\'INIZIO. Poiché X è 10, la condizione 10 < 10 è FALSA fin da subito. Il corpo del ciclo viene eseguito 0 volte e X resta 10.',
+                hint: 'Verifica se la condizione (10 < 10) è vera o falsa all\'inizio dell\'algoritmo.'
+            },
+            {
+                id: 5,
+                diff: 'medio',
+                type: 'number',
+                question: 'Data la seguente sequenza:<br><code class="text-cyber-neonBlue font-mono">K = 1;<br>Esegui:<br>&nbsp;&nbsp;K = K * 2;<br>Mentre (K < 8);</code><br>Qual è il valore finale assunto da <strong>K</strong>?',
+                correctNumber: 8,
+                scopriRef: 'S3',
+                explanation: 'Passo 1: K diventa 2 (2 < 8 è Vero); Passo 2: K diventa 4 (4 < 8 è Vero); Passo 3: K diventa 8 (8 < 8 è Falso). Il ciclo termina e K vale 8.',
+                hint: 'Fai la tabella di traccia: 1->2->4->8. A quale valore si interrompe la condizione K < 8?'
+            },
+            {
+                id: 6,
+                diff: 'medio',
+                type: 'choice',
+                question: 'Quale tra i seguenti cicli garantisce con certezza assoluta che il blocco di istruzioni interno venga eseguito <strong>almeno una volta</strong>?',
+                options: [
+                    'Ciclo Pre-condizionale (WHILE)',
+                    'Ciclo Post-condizionale (DO-WHILE / REPEAT)',
+                    'Ciclo Enumerativo (FOR con 0 iterazioni)',
+                    'Tutti i cicli garantiscono almeno una esecuzione'
+                ],
+                correctIndex: 1,
+                scopriRef: 'S3',
+                explanation: 'Nel ciclo post-condizionale il rombo di controllo si trova in coda al blocco, pertanto le istruzioni vengono eseguite prima del primo test della condizione.',
+                hint: 'In quale ciclo il controllo della condizione si trova in basso dopo le istruzioni?'
+            },
+            {
+                id: 7,
+                diff: 'difficile',
+                type: 'number',
+                question: 'Considera i seguenti cicli annidati:<br><code class="text-cyber-neonBlue font-mono">C = 0;<br>Per I da 1 a 4 fai:<br>&nbsp;&nbsp;Per J da 1 a 3 fai:<br>&nbsp;&nbsp;&nbsp;&nbsp;C = C + 1;</code><br>Qual è il valore finale del contatore <strong>C</strong>?',
+                correctNumber: 12,
+                scopriRef: 'S1',
+                explanation: 'Per ognuna delle 4 iterazioni del ciclo esterno (I), il ciclo interno (J) esegue 3 iterazioni completando in totale 4 * 3 = 12 incrementi di C.',
+                hint: 'Moltiplica le iterazioni del ciclo esterno per le iterazioni del ciclo interno.'
+            },
+            {
+                id: 8,
+                diff: 'difficile',
+                type: 'choice',
+                question: 'Devi sommare gli importi degli scontrini di cassa di una giornata e fermarti non appena il totale supera 500€. Se il primo scontrino è già superiore a 500€, non devi sommare altri scontrini. Quale ciclo usi?',
+                options: [
+                    'Ciclo Pre-condizionale (WHILE)',
+                    'Ciclo Post-condizionale (DO-WHILE)',
+                    'Ciclo Enumerativo (FOR)',
+                    'Nessun ciclo, si usano 10 istruzioni IF'
+                ],
+                correctIndex: 0,
+                scopriRef: 'S2',
+                explanation: 'Non conosciamo il numero di scontrini e il ciclo potrebbe dover essere eseguito 0 volte se l\'importo iniziale è già >500€. Il ciclo pre-condizionale è l\'unica scelta corretta.',
+                hint: 'È possibile che non debba essere letta nessuna ulteriore fattura/scontrino fin dall\'inizio?'
+            },
+            {
+                id: 9,
+                diff: 'difficile',
+                type: 'number',
+                question: 'Dato il seguente codice (divisione intera):<br><code class="text-cyber-neonBlue font-mono">N = 15; C = 0;<br>Mentre (N > 1) fai:<br>&nbsp;&nbsp;N = N / 2; (div. intera)<br>&nbsp;&nbsp;C = C + 1;</code><br>Quanto vale <strong>C</strong> al termine del ciclo?',
+                correctNumber: 3,
+                scopriRef: 'S4',
+                explanation: 'Inizio: N=15, C=0.<br>1° giro: N=7, C=1 (7>1 Vero)<br>2° giro: N=3, C=2 (3>1 Vero)<br>3° giro: N=1, C=3 (1>1 FALSO!). Il ciclo si arresta con C = 3.',
+                hint: 'Calcola N ad ogni passaggio: 15/2=7, 7/2=3, 3/2=1. Conta i passaggi finché N > 1.'
+            },
+            {
+                id: 10,
+                diff: 'difficile',
+                type: 'choice',
+                question: 'Un programma gestionale aziendale deve stampare un promemoria di pagamento per ciascuno dei 25 clienti registrati nel database dell\'anno. Qual è la scelta di programmazione ideale?',
+                options: [
+                    'Ciclo Enumerativo (FOR)',
+                    'Ciclo Post-condizionale (DO-WHILE)',
+                    'Ciclo Pre-condizionale (WHILE)',
+                    'Tre cicli annidati'
+                ],
+                correctIndex: 0,
+                scopriRef: 'S1',
+                explanation: 'Il numero totale dei clienti (25) è prefissato e noto prima di avviare il ciclo di stampa. Il ciclo FOR è perfetto.',
+                hint: 'Il numero complessivo di clienti è già noto (25)?'
+            }
+        ];
+
+        /* ==========================================================================
+           STATO DELL'APPLICAZIONE
+           ========================================================================== */
+        let state = {
+            currentScreen: 'home',
+            scopriActiveIndex: 0,
+            sfidaConfig: {
+                difficolta: 'facile',
+                timerEnabled: true
+            },
+            sfidaState: {
+                currentIndex: 0,
+                score: 0,
+                attemptsLeft: 2,
+                questionsList: [],
+                timerInterval: null,
+                timerSeconds: 30,
+                userAnswersHistory: []
+            }
+        };
+
+        /* ==========================================================================
+           FUNZIONI DI NAVIGAZIONE SCHERMI
+           ========================================================================== */
+        function showScreen(screenId) {
+            state.currentScreen = screenId;
+            
+            // Stop eventuale timer attivo
+            if(state.sfidaState.timerInterval) {
+                clearInterval(state.sfidaState.timerInterval);
+            }
+
+            document.getElementById('screen-home').classList.add('hidden');
+            document.getElementById('screen-scopri').classList.add('hidden');
+            document.getElementById('screen-sfida-setup').classList.add('hidden');
+            document.getElementById('screen-sfida-play').classList.add('hidden');
+            document.getElementById('screen-summary').classList.add('hidden');
+
+            document.getElementById(`screen-${screenId}`).classList.remove('hidden');
+
+            if(screenId === 'scopri') {
+                renderScopriTabs();
+                renderScopriContent();
+            }
+        }
+
+        /* ==========================================================================
+           LOGICA SEZIONE SCOPRI
+           ========================================================================== */
+        function renderScopriTabs() {
+            const container = document.getElementById('scopri-tabs');
+            container.innerHTML = SCOPRI_DATA.map((item, idx) => `
+                <button onclick="setScopriTab(${idx})" 
+                    class="btn-touch px-4 py-2.5 rounded-xl text-xs font-mono font-bold whitespace-nowrap transition duration-200 flex items-center gap-2 border ${state.scopriActiveIndex === idx ? 'bg-cyber-neonBlue text-black border-cyber-neonBlue glow-blue' : 'bg-cyber-card text-cyber-muted border-cyber-border hover:border-cyan-700'}">
+                    <span>${item.icon}</span>
+                    <span>${item.title.split('.')[1] || item.title}</span>
+                </button>
+            `).join('');
+        }
+
+        function setScopriTab(idx) {
+            state.scopriActiveIndex = idx;
+            renderScopriTabs();
+            renderScopriContent();
+        }
+
+        function renderScopriContent() {
+            const data = SCOPRI_DATA[state.scopriActiveIndex];
+            const container = document.getElementById('scopri-content');
+            
+            container.innerHTML = `
+                <div>
+                    <div class="flex justify-between items-center mb-4">
+                        <span class="text-xs font-mono px-2.5 py-1 rounded bg-cyan-950 text-cyber-neonBlue border border-cyan-800">${data.badge}</span>
+                        <span class="text-xs font-mono text-cyber-muted">Scheda ${state.scopriActiveIndex + 1} di ${SCOPRI_DATA.length}</span>
+                    </div>
+                    ${data.content}
+                </div>
+                <div class="flex justify-between items-center pt-6 border-t border-cyber-border/60 mt-6">
+                    <button onclick="setScopriTab(${Math.max(0, state.scopriActiveIndex - 1)})" ${state.scopriActiveIndex === 0 ? 'disabled class="opacity-30 cursor-not-allowed text-xs font-mono"' : 'class="btn-touch px-4 py-2 bg-cyber-bg border border-cyber-border rounded-lg text-xs font-mono hover:border-cyber-neonBlue text-white"'}>
+                        &larr; Precedente
+                    </button>
+                    <button onclick="setScopriTab(${Math.min(SCOPRI_DATA.length - 1, state.scopriActiveIndex + 1)})" ${state.scopriActiveIndex === SCOPRI_DATA.length - 1 ? 'disabled class="opacity-30 cursor-not-allowed text-xs font-mono"' : 'class="btn-touch px-4 py-2 bg-cyber-bg border border-cyber-border rounded-lg text-xs font-mono hover:border-cyber-neonBlue text-white"'}>
+                        Successiva &rarr;
+                    </button>
+                </div>
+            `;
+        }
+
+        /* ==========================================================================
+           LOGICA SETUP SFIDA
+           ========================================================================== */
+        function setDifficolta(diff) {
+            state.sfidaConfig.difficolta = diff;
+            document.querySelectorAll('.diff-btn').forEach(btn => {
+                btn.className = 'diff-btn btn-touch py-3 rounded-lg border font-mono text-xs font-bold transition border-cyber-border text-cyber-muted hover:border-cyber-neonBlue';
+            });
+
+            const activeBtn = document.getElementById(`btn-diff-${diff}`);
+            if(diff === 'facile') activeBtn.className = 'diff-btn btn-touch py-3 rounded-lg border font-mono text-xs font-bold transition border-cyber-neonGreen text-cyber-neonGreen bg-green-950/30 glow-green';
+            if(diff === 'medio') activeBtn.className = 'diff-btn btn-touch py-3 rounded-lg border font-mono text-xs font-bold transition border-cyber-neonYellow text-cyber-neonYellow bg-yellow-950/30';
+            if(diff === 'difficile') activeBtn.className = 'diff-btn btn-touch py-3 rounded-lg border font-mono text-xs font-bold transition border-cyber-neonPink text-cyber-neonPink bg-pink-950/30 glow-pink';
+        }
+
+        function startSfida() {
+            const timerCheck = document.getElementById('timer-toggle').checked;
+            state.sfidaConfig.timerEnabled = timerCheck;
+
+            // Filtra o ordina le domande in base alla difficoltà scelta
+            let questions = [...SFIDA_PROVE];
+            if(state.sfidaConfig.difficolta === 'facile') {
+                questions.sort((a,b) => (a.diff === 'facile' ? -1 : 1));
+            } else if(state.sfidaConfig.difficolta === 'difficile') {
+                questions.sort((a,b) => (a.diff === 'difficile' ? -1 : 1));
+            }
+
+            state.sfidaState = {
+                currentIndex: 0,
+                score: 0,
+                attemptsLeft: 2,
+                questionsList: questions,
+                timerInterval: null,
+                timerSeconds: 30,
+                userAnswersHistory: []
+            };
+
+            showScreen('sfida-play');
+            loadQuestion();
+        }
+
+        /* ==========================================================================
+           LOGICA GIOCO SFIDA
+           ========================================================================== */
+        function loadQuestion() {
+            const q = state.sfidaState.questionsList[state.sfidaState.currentIndex];
+            state.sfidaState.attemptsLeft = 2;
+
+            // HUD
+            document.getElementById('hud-progress').innerText = `${state.sfidaState.currentIndex + 1} / ${state.sfidaState.questionsList.length}`;
+            document.getElementById('hud-score').innerText = state.sfidaState.score;
+
+            // Timer setup
+            if(!state.sfidaConfig.timerEnabled) {
+                document.getElementById('hud-timer-container').classList.add('hidden');
+            } else {
+                document.getElementById('hud-timer-container').classList.remove('hidden');
+                startTimer();
+            }
+
+            // Tags
+            const levelTag = document.getElementById('question-level-tag');
+            levelTag.innerText = q.diff.toUpperCase();
+            if(q.diff === 'facile') levelTag.className = 'text-xs font-mono font-bold px-2.5 py-1 rounded bg-green-950 text-cyber-neonGreen border border-green-800';
+            if(q.diff === 'medio') levelTag.className = 'text-xs font-mono font-bold px-2.5 py-1 rounded bg-yellow-950 text-cyber-neonYellow border border-yellow-800';
+            if(q.diff === 'difficile') levelTag.className = 'text-xs font-mono font-bold px-2.5 py-1 rounded bg-pink-950 text-cyber-neonPink border border-pink-800';
+
+            document.getElementById('question-attempt-tag').innerText = `Tentativi rimasti: 2/2`;
+            document.getElementById('question-text').innerHTML = q.question;
+
+            // Render area risposta
+            const interactionDiv = document.getElementById('question-interaction');
+            interactionDiv.innerHTML = '';
+
+            if(q.type === 'choice') {
+                q.options.forEach((opt, idx) => {
+                    const btn = document.createElement('button');
+                    btn.className = `opt-btn w-full btn-touch p-4 rounded-xl border border-cyber-border text-left font-semibold text-sm transition flex items-center justify-between bg-cyber-bg hover:border-cyber-neonBlue text-cyber-text`;
+                    btn.onclick = () => selectChoiceOption(idx);
+                    btn.innerHTML = `
+                        <span>${opt}</span>
+                        <span class="opt-check text-xs font-mono text-cyber-muted">Option ${String.fromCharCode(65 + idx)}</span>
+                    `;
+                    btn.dataset.index = idx;
+                    interactionDiv.appendChild(btn);
+                });
+            } else if(q.type === 'number') {
+                interactionDiv.innerHTML = `
+                    <div class="space-y-2">
+                        <label class="block text-xs font-mono text-cyber-muted">INSERISCI IL VALORE NUMERICO FINALE:</label>
+                        <input type="number" id="num-input" class="w-full btn-touch p-4 bg-cyber-bg border-2 border-cyber-border focus:border-cyber-neonBlue rounded-xl text-cyber-neonBlue font-mono text-xl outline-none" placeholder="Es. 10">
+                    </div>
+                `;
+            }
+
+            // Reset feedback
+            document.getElementById('feedback-box').className = 'hidden p-4 rounded-xl border text-sm space-y-2';
+            document.getElementById('btn-submit-answer').classList.remove('hidden');
+            document.getElementById('btn-next-question').classList.add('hidden');
+        }
+
+        let selectedChoice = null;
+        function selectChoiceOption(index) {
+            selectedChoice = index;
+            document.querySelectorAll('.opt-btn').forEach((btn, idx) => {
+                if(idx === index) {
+                    btn.className = 'opt-btn w-full btn-touch p-4 rounded-xl border-2 border-cyber-neonBlue text-left font-semibold text-sm transition flex items-center justify-between bg-cyan-950/60 text-cyber-neonBlue glow-blue';
+                } else {
+                    btn.className = 'opt-btn w-full btn-touch p-4 rounded-xl border border-cyber-border text-left font-semibold text-sm transition flex items-center justify-between bg-cyber-bg opacity-70 text-cyber-muted';
+                }
+            });
+        }
+
+        function startTimer() {
+            if(state.sfidaState.timerInterval) clearInterval(state.sfidaState.timerInterval);
+            state.sfidaState.timerSeconds = 30;
+            updateTimerDisplay();
+
+            state.sfidaState.timerInterval = setInterval(() => {
+                state.sfidaState.timerSeconds--;
+                updateTimerDisplay();
+                if(state.sfidaState.timerSeconds <= 0) {
+                    clearInterval(state.sfidaState.timerInterval);
+                    handleTimeOut();
+                }
+            }, 1000);
+        }
+
+        function updateTimerDisplay() {
+            const sec = state.sfidaState.timerSeconds;
+            document.getElementById('hud-timer-sec').innerText = sec;
+            const bar = document.getElementById('timer-bar');
+            const pct = (sec / 30) * 100;
+            bar.style.width = `${pct}%`;
+
+            if(sec <= 5) {
+                bar.className = 'bg-cyber-neonPink h-full w-full transition-all duration-1000';
+            } else if(sec <= 15) {
+                bar.className = 'bg-cyber-neonYellow h-full w-full transition-all duration-1000';
+            } else {
+                bar.className = 'bg-cyber-neonBlue h-full w-full transition-all duration-1000';
+            }
+        }
+
+        function handleTimeOut() {
+            const feedbackBox = document.getElementById('feedback-box');
+            feedbackBox.className = 'block p-4 rounded-xl border border-red-800 bg-red-950/40 text-sm space-y-2';
+            document.getElementById('feedback-title').innerHTML = '<span class="text-cyber-neonPink">⏱️ TEMPO SCADUTO (✗ Errato)</span>';
+            document.getElementById('feedback-desc').innerText = 'Non hai inserito la risposta in tempo per questa prova.';
+            
+            saveHistory(false, 'Tempo scaduto');
+            showAnswerResult(false, true);
+        }
+
+        function submitAnswer() {
+            const q = state.sfidaState.questionsList[state.sfidaState.currentIndex];
+            let isCorrect = false;
+            let userAnsText = '';
+
+            if(q.type === 'choice') {
+                if(selectedChoice === null) {
+                    alert('Seleziona un\'opzione prima di confermare!');
+                    return;
+                }
+                isCorrect = (selectedChoice === q.correctIndex);
+                userAnsText = q.options[selectedChoice];
+            } else if(q.type === 'number') {
+                const val = document.getElementById('num-input').value.trim();
+                if(val === '') {
+                    alert('Inserisci un numero prima di confermare!');
+                    return;
+                }
+                isCorrect = (parseInt(val, 10) === q.correctNumber);
+                userAnsText = val;
+            }
+
+            if(isCorrect) {
+                if(state.sfidaState.timerInterval) clearInterval(state.sfidaState.timerInterval);
+                const points = (state.sfidaState.attemptsLeft === 2) ? 10 : 5;
+                state.sfidaState.score += points;
+                document.getElementById('hud-score').innerText = state.sfidaState.score;
+
+                saveHistory(true, userAnsText);
+                showAnswerResult(true, false);
+            } else {
+                state.sfidaState.attemptsLeft--;
+                document.getElementById('question-attempt-tag').innerText = `Tentativi rimasti: ${state.sfidaState.attemptsLeft}/2`;
+
+                if(state.sfidaState.attemptsLeft > 0) {
+                    // Primo errore -> Suggerimento
+                    const feedbackBox = document.getElementById('feedback-box');
+                    feedbackBox.className = 'block p-4 rounded-xl border border-yellow-800 bg-yellow-950/30 text-sm space-y-2';
+                    document.getElementById('feedback-title').innerHTML = '<span class="text-cyber-neonYellow">⚠️ ATTENZIONE (✗ Risposta Errata)</span>';
+                    document.getElementById('feedback-desc').innerText = 'La risposta non è corretta. Hai ancora 1 tentativo!';
+                    
+                    const sugBox = document.getElementById('feedback-suggestion');
+                    sugBox.classList.remove('hidden');
+                    sugBox.innerHTML = `💡 <strong>Suggerimento:</strong> ${q.hint}`;
+
+                    const scopriLink = document.getElementById('feedback-link-scopri');
+                    scopriLink.classList.remove('hidden');
+                } else {
+                    // Secondo errore -> Fallito
+                    if(state.sfidaState.timerInterval) clearInterval(state.sfidaState.timerInterval);
+                    saveHistory(false, userAnsText);
+                    showAnswerResult(false, false);
+                }
+            }
+        }
+
+        function showAnswerResult(isCorrect, isTimeout) {
+            const q = state.sfidaState.questionsList[state.sfidaState.currentIndex];
+            const feedbackBox = document.getElementById('feedback-box');
+            feedbackBox.classList.remove('hidden');
+
+            document.getElementById('btn-submit-answer').classList.add('hidden');
+            document.getElementById('btn-next-question').classList.remove('hidden');
+
+            const sugBox = document.getElementById('feedback-suggestion');
+            sugBox.classList.add('hidden');
+
+            const scopriLink = document.getElementById('feedback-link-scopri');
+            scopriLink.classList.remove('hidden');
+
+            if(isCorrect) {
+                feedbackBox.className = 'block p-4 rounded-xl border border-green-800 bg-green-950/40 text-sm space-y-2';
+                document.getElementById('feedback-title').innerHTML = '<span class="text-cyber-neonGreen">✓ CORRETTO! (+ ' + ((state.sfidaState.attemptsLeft===1)?'5':'10') + ' pt)</span>';
+                document.getElementById('feedback-desc').innerHTML = q.explanation;
+            } else {
+                feedbackBox.className = 'block p-4 rounded-xl border border-pink-800 bg-pink-950/40 text-sm space-y-2';
+                if(!isTimeout) {
+                    document.getElementById('feedback-title').innerHTML = '<span class="text-cyber-neonPink">✗ ERRATO (Tentativi esauriti)</span>';
+                }
+                const correctText = (q.type === 'choice') ? q.options[q.correctIndex] : q.correctNumber;
+                document.getElementById('feedback-desc').innerHTML = `
+                    <div class="mb-1"><strong>Risposta corretta:</strong> <span class="text-cyber-neonGreen font-mono">${correctText}</span></div>
+                    <div>${q.explanation}</div>
+                `;
+            }
+
+            // Disabilita input/pulsanti
+            document.querySelectorAll('.opt-btn').forEach(btn => btn.disabled = true);
+            const numInp = document.getElementById('num-input');
+            if(numInp) numInp.disabled = true;
+        }
+
+        function goToRelatedScopri() {
+            const q = state.sfidaState.questionsList[state.sfidaState.currentIndex];
+            const targetRef = q.scopriRef;
+            const targetIndex = SCOPRI_DATA.findIndex(item => item.id === targetRef);
+            if(targetIndex !== -1) {
+                setScopriTab(targetIndex);
+                showScreen('scopri');
+            }
+        }
+
+        function saveHistory(isCorrect, userAns) {
+            const q = state.sfidaState.questionsList[state.sfidaState.currentIndex];
+            state.sfidaState.userAnswersHistory.push({
+                question: q.question,
+                isCorrect: isCorrect,
+                userAns: userAns,
+                correctAns: (q.type === 'choice') ? q.options[q.correctIndex] : q.correctNumber,
+                explanation: q.explanation
+            });
+        }
+
+        function nextQuestion() {
+            selectedChoice = null;
+            state.sfidaState.currentIndex++;
+
+            if(state.sfidaState.currentIndex < state.sfidaState.questionsList.length) {
+                loadQuestion();
+            } else {
+                showSummaryScreen();
+            }
+        }
+
+        /* ==========================================================================
+           RIEPILOGO FINALE
+           ========================================================================== */
+        function showSummaryScreen() {
+            showScreen('summary');
+
+            const score = state.sfidaState.score;
+            document.getElementById('final-score-val').innerText = `${score} / 100`;
+
+            const rating = document.getElementById('final-rating-text');
+            if(score >= 80) {
+                rating.innerText = '🔥 Eccellente! Conosci perfettamente i cicli e le strutture di iterazione!';
+                rating.className = 'text-sm font-mono text-cyber-neonGreen';
+            } else if(score >= 60) {
+                rating.innerText = '👍 Buona preparazione! Rivedi le schede per perfezionare il conteggio.';
+                rating.className = 'text-sm font-mono text-cyber-neonBlue';
+            } else {
+                rating.innerText = '⚠️ Hai avuto qualche difficoltà. Ti consigliamo di consultare le schede Scopri!';
+                rating.className = 'text-sm font-mono text-cyber-neonPink';
+            }
+
+            const listContainer = document.getElementById('summary-list');
+            listContainer.innerHTML = state.sfidaState.userAnswersHistory.map((item, idx) => `
+                <div class="p-3.5 rounded-xl border text-xs space-y-1.5 ${item.isCorrect ? 'bg-green-950/20 border-green-800/50' : 'bg-pink-950/20 border-pink-800/50'}">
+                    <div class="flex items-center justify-between font-bold">
+                        <span class="text-white">Prova ${idx + 1}</span>
+                        <span>${item.isCorrect ? '<span class="text-cyber-neonGreen">✓ CORRETTO</span>' : '<span class="text-cyber-neonPink">✗ ERRATO</span>'}</span>
+                    </div>
+                    <div class="text-cyber-muted line-clamp-2">${item.question}</div>
+                    <div class="font-mono text-[11px]">
+                        <span class="text-cyber-muted">Tua risposta:</span> <span class="${item.isCorrect ? 'text-cyber-neonGreen' : 'text-cyber-neonPink'}">${item.userAns}</span>
+                        ${!item.isCorrect ? `<br><span class="text-cyber-muted">Corretta:</span> <span class="text-cyber-neonGreen">${item.correctAns}</span>` : ''}
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Inizializzazione al caricamento
+        window.onload = function() {
+            showScreen('home');
+        };
+    </script>
+</body>
+</html>
